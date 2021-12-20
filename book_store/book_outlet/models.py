@@ -15,6 +15,7 @@ class Country(models.Model):
     class Meta:
         verbose_name_plural = "Countries"
 
+
 class Address(models.Model):
     street = models.CharField(max_length=80)
     post_code = models.CharField(max_length=5)
