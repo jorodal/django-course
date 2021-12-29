@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +21,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-jbqld5)3qvvnld2tpacav3)o8jg8*bg6nfj5%ip6l5%q-h4#u*'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-jbqld5)3qvvnld2tpacav3)o8jg8*bg6nfj5%ip6l5%q-h4#u*')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", True)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    os.getenv("APP_HOST", "localhost")
+]
 
 
 # Application definition
@@ -83,6 +86,22 @@ DATABASES = {
     }
 }
 
+# Postgres example
+PG_SECURE = os.environ.get('PG_SECURE', 'disable')
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'USER': os.environ.get('PG_USER', 'postgres'),
+#         'PASSWORD': os.environ.get('PG_PASS', 'postgres'),
+#         'NAME': os.environ.get('PG_DBNAME', 'djangoblog'),
+#         'HOST': os.environ.get('PG_HOST', 'localhost'),
+#         'PORT': os.environ.get('PG_PORT', ''),
+#         'CONN_MAX_AGE': 0,
+#         'OPTIONS': {'sslmode': PG_SECURE},
+#     }
+# }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -120,6 +139,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
